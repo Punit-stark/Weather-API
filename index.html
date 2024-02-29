@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="card">
+        <div class="search">
+            <input type="text" placeholder="enter city name">
+            <button><img src="images/search.png"></button>
+        </div>
+        <div class="weather">
+            <img src="images/rain.png">
+            <h1 class="temp"> 23°C</h1>
+            <h2 class="city">India</h2>
+            <div class="details">
+                <div class="col">
+                    <img src="images/humidity.png">
+                    <div>
+                        <p class="humidity">50%</p>
+                        <p>Humidity</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <img src="images/wind.png">
+                    <div>
+                        <p class="wind">15km/h</p>
+                        <p>Wind Speed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const apikey = "47f66d7c5cf3a63394f3e0a60f4a62a6";
+        const apiUrl = "https://api.openweathermap.org/data/2.5/weather?&units=metric&q=";
+
+        const searchBox=document.querySelector(".search input");         //search class and input field 
+        const searchBtn=document.querySelector(".search button");        //when people click the button it should send info of searchBox to checkWeather fun
+
+        async function checkWeather(city){
+            const response=await fetch(apiUrl + city+ `&appid=${apikey}`);
+            var data =await response.json();   //data have all the info about weather
+
+            console.log(data);
+
+            document.querySelector(".city").innerHTML=data.name;
+            document.querySelector(".temp").innerHTML=Math.round(data.main.temp)+"°C";    //Math.round() for convert value into integer
+            document.querySelector(".humidity").innerHTML=data.main.humidity+"%";
+            document.querySelector(".wind").innerHTML=data.wind.speed+"km/h";
+
+        }
+
+        searchBtn.addEventListener("click", ()=>{
+            checkWeather(searchBox.value);          ///searchBox.value will give the city name
+        })
+        
+    </script>
+
+</body>
+
+</html>
